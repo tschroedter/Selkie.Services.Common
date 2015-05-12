@@ -1,0 +1,43 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Selkie.Services.Common", "Selkie.Services.Common\Selkie.Services.Common.csproj", "{9C71309D-A673-46CF-B2D3-C7F3B517CBFE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NuGet.Selkie.Services.Common", "NuGet.Selkie.Services.Common\NuGet.Selkie.Services.Common.csproj", "{0451BAEF-DF2E-4B98-8644-94EE9415E389}"
+	ProjectSection(ProjectDependencies) = postProject
+		{9C71309D-A673-46CF-B2D3-C7F3B517CBFE} = {9C71309D-A673-46CF-B2D3-C7F3B517CBFE}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Selkie.Services.Common.Tests", "Selkie.Services.Common.Tests\Selkie.Services.Common.Tests.csproj", "{08C2CD83-E203-45C5-8859-7BE36CF452C6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Selkie.Services.Common.Example", "Selkie.Services.Common.Console\Selkie.Services.Common.Example.csproj", "{2F3EB768-CF79-46E1-A0A6-082E2C3CA58B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9C71309D-A673-46CF-B2D3-C7F3B517CBFE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C71309D-A673-46CF-B2D3-C7F3B517CBFE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9C71309D-A673-46CF-B2D3-C7F3B517CBFE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9C71309D-A673-46CF-B2D3-C7F3B517CBFE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0451BAEF-DF2E-4B98-8644-94EE9415E389}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0451BAEF-DF2E-4B98-8644-94EE9415E389}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0451BAEF-DF2E-4B98-8644-94EE9415E389}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0451BAEF-DF2E-4B98-8644-94EE9415E389}.Release|Any CPU.Build.0 = Release|Any CPU
+		{08C2CD83-E203-45C5-8859-7BE36CF452C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{08C2CD83-E203-45C5-8859-7BE36CF452C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{08C2CD83-E203-45C5-8859-7BE36CF452C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{08C2CD83-E203-45C5-8859-7BE36CF452C6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2F3EB768-CF79-46E1-A0A6-082E2C3CA58B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F3EB768-CF79-46E1-A0A6-082E2C3CA58B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F3EB768-CF79-46E1-A0A6-082E2C3CA58B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F3EB768-CF79-46E1-A0A6-082E2C3CA58B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
