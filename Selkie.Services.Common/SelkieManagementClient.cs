@@ -128,8 +128,8 @@ namespace Selkie.Services.Common
         {
             try
             {
-                GetMessagesCriteria criteria = new GetMessagesCriteria(long.MaxValue,
-                                                                       false);
+                var criteria = new GetMessagesCriteria(long.MaxValue,
+                                                       false);
                 IEnumerable <Message> messagesFromQueue = client.GetMessagesFromQueue(queue,
                                                                                       criteria);
                 Message[] messages = messagesFromQueue.ToArray();

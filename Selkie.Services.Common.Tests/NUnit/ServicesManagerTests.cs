@@ -14,11 +14,6 @@ namespace Selkie.Services.Common.Tests.NUnit
     //ncrunch: no coverage start
     internal sealed class ServicesManagerTests
     {
-        private IBus m_Bus;
-        private ILogger m_Logger;
-        private ServicesManager m_Manager;
-        private ISelkieSleeper m_Sleeper;
-
         [SetUp]
         public void SetUp()
         {
@@ -31,13 +26,16 @@ namespace Selkie.Services.Common.Tests.NUnit
                                             m_Sleeper);
         }
 
+        private IBus m_Bus;
+        private ILogger m_Logger;
+        private ServicesManager m_Manager;
+        private ISelkieSleeper m_Sleeper;
+
         [Test]
         public void ConstructorSubscribesToPingRequestMessageTest()
         {
-            m_Bus.Received()
-                 .SubscribeAsync(m_Manager.GetType()
-                                          .ToString(),
-                                 Arg.Any <Func <ServicesStatusResponseMessage, Task>>());
+            m_Bus.Received().SubscribeAsync(m_Manager.GetType().ToString(),
+                                            Arg.Any <Func <ServicesStatusResponseMessage, Task>>());
         }
 
         [Test]
@@ -65,10 +63,10 @@ namespace Selkie.Services.Common.Tests.NUnit
         [Test]
         public void ServicesStatusResponseHandlerTest()
         {
-            ServicesStatusResponseMessage message = new ServicesStatusResponseMessage
-                                                    {
-                                                        IsAllServicesRunning = true
-                                                    };
+            var message = new ServicesStatusResponseMessage
+                          {
+                              IsAllServicesRunning = true
+                          };
 
             m_Manager.ServicesStatusResponseHandler(message);
 
@@ -81,8 +79,7 @@ namespace Selkie.Services.Common.Tests.NUnit
         {
             m_Manager.StopServices();
 
-            m_Logger.Received()
-                    .Info(Arg.Any <string>());
+            m_Logger.Received().Info(Arg.Any <string>());
         }
 
         [Test]
@@ -90,8 +87,7 @@ namespace Selkie.Services.Common.Tests.NUnit
         {
             m_Manager.StopServices();
 
-            m_Bus.Received()
-                 .PublishAsync(Arg.Any <StopServiceRequestMessage>());
+            m_Bus.Received().PublishAsync(Arg.Any <StopServiceRequestMessage>());
         }
 
         [Test]
@@ -101,8 +97,7 @@ namespace Selkie.Services.Common.Tests.NUnit
 
             m_Manager.WaitForAllServices();
 
-            m_Logger.Received()
-                    .Info(Arg.Any <string>());
+            m_Logger.Received().Info(Arg.Any <string>());
         }
 
         [Test]
@@ -112,24 +107,22 @@ namespace Selkie.Services.Common.Tests.NUnit
 
             m_Manager.WaitForAllServices();
 
-            m_Sleeper.Received(3)
-                     .Sleep(ServicesManager.OneSecond);
+            m_Sleeper.Received(3).Sleep(ServicesManager.OneSecond);
         }
 
         [Test]
         public void WaitForAllServicesDoesNotCallsSleepForIsAllServicesRunningIsTrueTest()
         {
-            ServicesStatusResponseMessage message = new ServicesStatusResponseMessage
-                                                    {
-                                                        IsAllServicesRunning = true
-                                                    };
+            var message = new ServicesStatusResponseMessage
+                          {
+                              IsAllServicesRunning = true
+                          };
             m_Manager.ServicesStatusResponseHandler(message);
             m_Manager.MaxTries = 3;
 
             m_Manager.WaitForAllServices();
 
-            m_Sleeper.DidNotReceive()
-                     .Sleep(ServicesManager.OneSecond);
+            m_Sleeper.DidNotReceive().Sleep(ServicesManager.OneSecond);
         }
     }
 }

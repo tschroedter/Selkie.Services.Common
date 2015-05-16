@@ -21,8 +21,7 @@ namespace Selkie.Services.Common.Tests.XUnit
                                                 [NotNull] [Frozen] IWindsorInstaller installer,
                                                 [NotNull] ServiceProgram program)
         {
-            container.Received()
-                     .Install(installer);
+            container.Received().Install(installer);
         }
 
         [Theory]
@@ -30,8 +29,7 @@ namespace Selkie.Services.Common.Tests.XUnit
         public void ConstructorCreatesLoggerTest([NotNull] [Frozen] IWindsorContainer container,
                                                  [NotNull] ServiceProgram program)
         {
-            container.Received()
-                     .Resolve <ILogger>();
+            container.Received().Resolve <ILogger>();
         }
 
         [Theory]
@@ -39,8 +37,7 @@ namespace Selkie.Services.Common.Tests.XUnit
         public void ConstructorCreatesSelkieConsoleTest([NotNull] [Frozen] IWindsorContainer container,
                                                         [NotNull] ServiceProgram program)
         {
-            container.Received()
-                     .Resolve <IServiceConsole>();
+            container.Received().Resolve <IServiceConsole>();
         }
 
         [Theory]
@@ -57,18 +54,16 @@ namespace Selkie.Services.Common.Tests.XUnit
                                                        [NotNull] IServiceConsole serviceConsole)
         {
             // assemble
-            container.Resolve <IServiceConsole>()
-                     .Returns(serviceConsole);
+            container.Resolve <IServiceConsole>().Returns(serviceConsole);
 
-            ServiceProgram program = new ServiceProgram(container,
-                                                        installer);
+            var program = new ServiceProgram(container,
+                                             installer);
 
             // act
             program.Main(true);
 
             // assert
-            serviceConsole.Received()
-                          .Start(true);
+            serviceConsole.Received().Start(true);
         }
 
         [Theory]
@@ -78,18 +73,16 @@ namespace Selkie.Services.Common.Tests.XUnit
                                                                              [NotNull] IServiceConsole serviceConsole)
         {
             // assemble
-            container.Resolve <IServiceConsole>()
-                     .Returns(serviceConsole);
+            container.Resolve <IServiceConsole>().Returns(serviceConsole);
 
-            ServiceProgram program = new ServiceProgram(container,
-                                                        installer);
+            var program = new ServiceProgram(container,
+                                             installer);
 
             // act
             program.Main(false);
 
             // assert
-            serviceConsole.Received()
-                          .Start(false);
+            serviceConsole.Received().Start(false);
         }
 
         [Theory]
@@ -102,8 +95,7 @@ namespace Selkie.Services.Common.Tests.XUnit
             program.Main(true);
 
             // assert
-            container.Received()
-                     .Release(Arg.Any <ILogger>());
+            container.Received().Release(Arg.Any <ILogger>());
         }
 
         [Theory]
@@ -116,8 +108,7 @@ namespace Selkie.Services.Common.Tests.XUnit
             program.Main(true);
 
             // assert
-            container.Received()
-                     .Release(Arg.Any <IServiceConsole>());
+            container.Received().Release(Arg.Any <IServiceConsole>());
         }
     }
 }

@@ -11,7 +11,7 @@ namespace Selkie.Services.Common.Tests.NUnit
         [Test]
         public void SleepTest()
         {
-            SelkieSleeper sut = new SelkieSleeper();
+            var sut = new SelkieSleeper();
 
             Assert.DoesNotThrow(() => sut.Sleep(100));
         }

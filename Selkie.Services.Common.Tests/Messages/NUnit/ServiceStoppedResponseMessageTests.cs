@@ -9,8 +9,6 @@ namespace Selkie.Services.Common.Tests.Messages.NUnit
     [TestFixture]
     internal sealed class ServiceStoppedResponseMessageTests
     {
-        private ServiceStoppedResponseMessage m_Message;
-
         [SetUp]
         public void Setup()
         {
@@ -19,6 +17,8 @@ namespace Selkie.Services.Common.Tests.Messages.NUnit
                             ServiceName = "Test"
                         };
         }
+
+        private ServiceStoppedResponseMessage m_Message;
 
         [Test]
         public void ServiceNameDefaultTest()

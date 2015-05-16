@@ -6,8 +6,9 @@ using Selkie.Windsor;
 namespace Selkie.Services.Common.Example
 {
     [ProjectComponent(Lifestyle.Singleton)]
-    public class TestService : BaseService,
-                               IService
+    public class TestService
+        : BaseService,
+          IService
     {
         public TestService([NotNull] IBus bus,
                            [NotNull] ILogger logger,

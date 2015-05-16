@@ -5,8 +5,9 @@ using Selkie.Windsor;
 
 namespace Selkie.Services.Common.Example
 {
-    public class Installer : BasicConsoleInstaller,
-                             IWindsorInstaller
+    public class Installer
+        : BasicConsoleInstaller,
+          IWindsorInstaller
     {
         public new void Install(IWindsorContainer container,
                                 IConfigurationStore store)
@@ -14,9 +15,7 @@ namespace Selkie.Services.Common.Example
             base.Install(container,
                          store);
 
-            container.Register(Component.For <IService>()
-                                        .ImplementedBy <TestService>()
-                                        .LifeStyle.Transient);
+            container.Register(Component.For <IService>().ImplementedBy <TestService>().LifeStyle.Transient);
         }
 
         protected override void InstallComponents(IWindsorContainer container,
@@ -25,9 +24,7 @@ namespace Selkie.Services.Common.Example
             base.InstallComponents(container,
                                    store);
 
-            container.Register(Component.For <IService>()
-                                        .ImplementedBy <TestService>()
-                                        .LifeStyle.Transient);
+            container.Register(Component.For <IService>().ImplementedBy <TestService>().LifeStyle.Transient);
         }
     }
 }

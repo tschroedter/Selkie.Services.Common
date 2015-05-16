@@ -10,9 +10,6 @@ namespace Selkie.Services.Common.Tests.Messages.NUnit
     [TestFixture]
     internal sealed class PingResponseMessageTests
     {
-        private PingResponseMessage m_Message;
-        private DateTime m_Request;
-
         [SetUp]
         public void Setup()
         {
@@ -27,6 +24,9 @@ namespace Selkie.Services.Common.Tests.Messages.NUnit
                             Response = DateTime.Now
                         };
         }
+
+        private PingResponseMessage m_Message;
+        private DateTime m_Request;
 
         [Test]
         public void ConstructorTest()

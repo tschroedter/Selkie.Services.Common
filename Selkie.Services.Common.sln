@@ -12,7 +12,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NuGet.Selkie.Services.Commo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Selkie.Services.Common.Tests", "Selkie.Services.Common.Tests\Selkie.Services.Common.Tests.csproj", "{08C2CD83-E203-45C5-8859-7BE36CF452C6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Selkie.Services.Common.Example", "Selkie.Services.Common.Console\Selkie.Services.Common.Example.csproj", "{2F3EB768-CF79-46E1-A0A6-082E2C3CA58B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Selkie.Services.Common.Example", "Selkie.Services.Common.Example\Selkie.Services.Common.Example.csproj", "{2F3EB768-CF79-46E1-A0A6-082E2C3CA58B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

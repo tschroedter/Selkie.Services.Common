@@ -12,12 +12,6 @@ namespace Selkie.Services.Common.Tests.NUnit
     //ncrunch: no coverage start
     internal sealed class ServiceConsoleTests
     {
-        private ISelkieConsole m_Console;
-        private ISelkieEnvironment m_Environment;
-        private ILogger m_Logger;
-        private IService m_Service;
-        private ServiceConsole m_ServiceConsole;
-
         [SetUp]
         public void Setup()
         {
@@ -32,11 +26,16 @@ namespace Selkie.Services.Common.Tests.NUnit
                                                   m_Service);
         }
 
+        private ISelkieConsole m_Console;
+        private ISelkieEnvironment m_Environment;
+        private ILogger m_Logger;
+        private IService m_Service;
+        private ServiceConsole m_ServiceConsole;
+
         [Test]
         public void ListensToServiceStoppedEventTest()
         {
-            m_Service.Received()
-                     .ServiceStopped += m_ServiceConsole.OnServiceStopped;
+            m_Service.Received().ServiceStopped += m_ServiceConsole.OnServiceStopped;
         }
 
         [Test]
@@ -45,8 +44,7 @@ namespace Selkie.Services.Common.Tests.NUnit
             m_ServiceConsole.OnServiceStopped(this,
                                               EventArgs.Empty);
 
-            m_Environment.Received()
-                         .Exit(0);
+            m_Environment.Received().Exit(0);
         }
 
         [Test]
@@ -54,8 +52,7 @@ namespace Selkie.Services.Common.Tests.NUnit
         {
             m_ServiceConsole.Start(true);
 
-            m_Service.Received()
-                     .Initialize();
+            m_Service.Received().Initialize();
         }
 
         [Test]
@@ -63,8 +60,7 @@ namespace Selkie.Services.Common.Tests.NUnit
         {
             m_ServiceConsole.Start(true);
 
-            m_Service.Received()
-                     .Start();
+            m_Service.Received().Start();
         }
 
         [Test]
@@ -72,8 +68,7 @@ namespace Selkie.Services.Common.Tests.NUnit
         {
             m_ServiceConsole.Start(true);
 
-            m_Service.Received()
-                     .Stop();
+            m_Service.Received().Stop();
         }
     }
 }

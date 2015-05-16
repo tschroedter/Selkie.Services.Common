@@ -57,11 +57,11 @@ namespace Selkie.Services.Common
             m_Mutex = new Mutex(false,
                                 mutexId);
 
-            MutexAccessRule allowEveryoneRule = new MutexAccessRule(new SecurityIdentifier(WellKnownSidType.WorldSid,
-                                                                                           null),
-                                                                    MutexRights.FullControl,
-                                                                    AccessControlType.Allow);
-            MutexSecurity securitySettings = new MutexSecurity();
+            var allowEveryoneRule = new MutexAccessRule(new SecurityIdentifier(WellKnownSidType.WorldSid,
+                                                                               null),
+                                                        MutexRights.FullControl,
+                                                        AccessControlType.Allow);
+            var securitySettings = new MutexSecurity();
             securitySettings.AddAccessRule(allowEveryoneRule);
             m_Mutex.SetAccessControl(securitySettings);
         }

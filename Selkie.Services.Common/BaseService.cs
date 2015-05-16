@@ -84,8 +84,7 @@ namespace Selkie.Services.Common
 
         public void PurgeAllQueuesForService()
         {
-            string name = GetType()
-                .Name;
+            string name = GetType().Name;
             Logger.Info("Purging all queues for '{0}'...".Inject(m_Name));
             m_Client.PurgeAllQueues(name);
         }
@@ -96,8 +95,7 @@ namespace Selkie.Services.Common
 
             try
             {
-                string name = m_Name.Split(' ')
-                                    .First();
+                string name = m_Name.Split(' ').First();
 
                 m_Client.PurgeQueueForServiceAndMessage(name,
                                                         typeof ( StopServiceRequestMessage ).Name);
@@ -129,23 +127,24 @@ namespace Selkie.Services.Common
         private void SubscribeToServiceStopRequestMessage()
         {
             Bus.SubscribeHandlerAsync <StopServiceRequestMessage>(Logger,
-                                                                  GetType()
-                                                                      .ToString(),
+                                                                  GetType().ToString(),
                                                                   StopServiceRequestHandler);
         }
 
         private void SubscribeToPingRequestMessage()
         {
             Bus.SubscribeHandlerAsync <PingRequestMessage>(Logger,
-                                                           GetType()
-                                                               .ToString(),
+                                                           GetType().ToString(),
                                                            PingRequestHandler);
         }
 
         internal void StopServiceRequestHandler([NotNull] StopServiceRequestMessage message)
         {
-            m_Logger.Debug("Received StopServiceRequestMessage width IsStopAllServices = {0} ServiceName = {1}".Inject(message.IsStopAllServices,
-                                                                                                                       message.ServiceName));
+            string inject = "Received StopServiceRequestMessage width " +
+                            "IsStopAllServices = {0} ServiceName = {1}".Inject(message.IsStopAllServices,
+                                                                               message.ServiceName);
+
+            m_Logger.Debug(inject);
 
             if ( !IsMessageForMe(message) )
             {
@@ -156,10 +155,10 @@ namespace Selkie.Services.Common
 
             Stop();
 
-            StopServiceResponseMessage responseMessage = new StopServiceResponseMessage
-                                                         {
-                                                             ServiceName = Name
-                                                         };
+            var responseMessage = new StopServiceResponseMessage
+                                  {
+                                      ServiceName = Name
+                                  };
             m_Bus.Publish(responseMessage);
 
             OnServiceStopped(EventArgs.Empty);
@@ -174,11 +173,11 @@ namespace Selkie.Services.Common
 
         internal void PingRequestHandler([NotNull] PingRequestMessage message)
         {
-            PingResponseMessage reply = new PingResponseMessage
-                                        {
-                                            ServiceName = m_Name,
-                                            Request = message.Request
-                                        };
+            var reply = new PingResponseMessage
+                        {
+                            ServiceName = m_Name,
+                            Request = message.Request
+                        };
 
             Bus.PublishAsync(reply);
         }

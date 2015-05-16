@@ -18,7 +18,8 @@ namespace Selkie.Services.Common
                                       store);
 
             // ReSharper disable MaximumChainedReferences
-            container.Register(Component.For <ManagementClient>()
+            container.Register(
+                               Component.For <ManagementClient>()
                                         .UsingFactoryMethod(ManagementClientLoaderBuilder.CreateLoader)
                                         .LifestyleTransient());
             // ReSharper restore MaximumChainedReferences
@@ -33,9 +34,9 @@ namespace Selkie.Services.Common
 
         public static ManagementClient CreateLoader()
         {
-            ManagementClient client = new ManagementClient(HttpLocalhost,
-                                                           Username,
-                                                           Password);
+            var client = new ManagementClient(HttpLocalhost,
+                                              Username,
+                                              Password);
             return client;
         }
     }

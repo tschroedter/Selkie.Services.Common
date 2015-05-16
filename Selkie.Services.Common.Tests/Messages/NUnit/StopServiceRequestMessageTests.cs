@@ -10,43 +10,43 @@ namespace Selkie.Services.Common.Tests.Messages.NUnit
     internal sealed class StopServiceRequestMessageTests
     {
         [Test]
+        public void DefaultIsStopAllServicesTest()
+        {
+            var message = new StopServiceRequestMessage();
+
+            Assert.False(message.IsStopAllServices);
+        }
+
+        [Test]
         public void DefaultServiceNameTest()
         {
-            StopServiceRequestMessage message = new StopServiceRequestMessage();
+            var message = new StopServiceRequestMessage();
 
             Assert.AreEqual("Unknown",
                             message.ServiceName);
         }
 
         [Test]
+        public void IsStopAllServicesRoundtripTest()
+        {
+            var message = new StopServiceRequestMessage
+                          {
+                              IsStopAllServices = true
+                          };
+
+            Assert.True(message.IsStopAllServices);
+        }
+
+        [Test]
         public void ServiceNameRoundtripTest()
         {
-            StopServiceRequestMessage message = new StopServiceRequestMessage
-                                                {
-                                                    ServiceName = "Service Name"
-                                                };
+            var message = new StopServiceRequestMessage
+                          {
+                              ServiceName = "Service Name"
+                          };
 
             Assert.AreEqual("Service Name",
                             message.ServiceName);
-        }
-
-        [Test]
-        public void DefaultIsStopAllServicesTest()
-        {
-            StopServiceRequestMessage message = new StopServiceRequestMessage();
-
-            Assert.False(message.IsStopAllServices);
-        }
-
-        [Test]
-        public void IsStopAllServicesRoundtripTest()
-        {
-            StopServiceRequestMessage message = new StopServiceRequestMessage
-                                                {
-                                                    IsStopAllServices = true
-                                                };
-
-            Assert.True(message.IsStopAllServices);
         }
     }
 }

@@ -25,8 +25,7 @@ namespace Selkie.Services.Common
             m_Sleeper = sleeper;
 
             bus.SubscribeHandlerAsync <ServicesStatusResponseMessage>(logger,
-                                                                      GetType()
-                                                                          .ToString(),
+                                                                      GetType().ToString(),
                                                                       ServicesStatusResponseHandler);
         }
 
@@ -34,14 +33,14 @@ namespace Selkie.Services.Common
         {
             m_Logger.Info("Stopping 'Services'...");
 
-            StopServiceRequestMessage message = new StopServiceRequestMessage();
+            var message = new StopServiceRequestMessage();
 
             m_Bus.PublishAsync(message);
         }
 
         public void WaitForAllServices()
         {
-            int tries = 0;
+            var tries = 0;
 
             while ( !IsAllServicesRunning &&
                     tries++ < m_MaxTries )

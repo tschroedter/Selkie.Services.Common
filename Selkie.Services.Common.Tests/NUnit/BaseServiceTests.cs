@@ -16,12 +16,6 @@ namespace Selkie.Services.Common.Tests.NUnit
     // ReSharper disable once ClassTooBig
     internal sealed class BaseServiceTests
     {
-        private IBus m_Bus;
-        private ISelkieManagementClient m_Client;
-        private ILogger m_Logger;
-        private TestBaseService m_Service;
-        private bool m_WasRaisedServiceStopped;
-
         [SetUp]
         public void Setup()
         {
@@ -34,6 +28,12 @@ namespace Selkie.Services.Common.Tests.NUnit
                                             m_Client);
         }
 
+        private IBus m_Bus;
+        private ISelkieManagementClient m_Client;
+        private ILogger m_Logger;
+        private TestBaseService m_Service;
+        private bool m_WasRaisedServiceStopped;
+
         private void OnServiceStopped([NotNull] object sender,
                                       [NotNull] EventArgs e)
         {
@@ -43,12 +43,44 @@ namespace Selkie.Services.Common.Tests.NUnit
         [NotNull]
         private static StopServiceRequestMessage CreateMessage()
         {
-            StopServiceRequestMessage message = new StopServiceRequestMessage
-                                                {
-                                                    IsStopAllServices = true
-                                                };
+            var message = new StopServiceRequestMessage
+                          {
+                              IsStopAllServices = true
+                          };
 
             return message;
+        }
+
+        private class TestBaseService : BaseService
+        {
+            public TestBaseService([NotNull] IBus bus,
+                                   [NotNull] ILogger logger,
+                                   [NotNull] ISelkieManagementClient client)
+                : base(bus,
+                       logger,
+                       client,
+                       typeof ( TestBaseService ).FullName)
+            {
+            }
+
+            public bool WasCalledServiceInitialize { get; private set; }
+            public bool WasCalledServiceStart { get; private set; }
+            public bool WasCalledServiceStop { get; private set; }
+
+            protected override void ServiceInitialize()
+            {
+                WasCalledServiceInitialize = true;
+            }
+
+            protected override void ServiceStart()
+            {
+                WasCalledServiceStart = true;
+            }
+
+            protected override void ServiceStop()
+            {
+                WasCalledServiceStop = true;
+            }
         }
 
         [Test]
@@ -66,9 +98,8 @@ namespace Selkie.Services.Common.Tests.NUnit
 
             m_Service.Initialize();
 
-            m_Client.Received()
-                    .PurgeQueueForServiceAndMessage(Arg.Is <string>(x => x == expectedName),
-                                                    Arg.Is <string>(x => x == expectedMessageName));
+            m_Client.Received().PurgeQueueForServiceAndMessage(Arg.Is <string>(x => x == expectedName),
+                                                               Arg.Is <string>(x => x == expectedMessageName));
         }
 
         [Test]
@@ -84,12 +115,10 @@ namespace Selkie.Services.Common.Tests.NUnit
         {
             m_Service.Initialize();
 
-            string subscriptionId = m_Service.GetType()
-                                             .ToString();
+            string subscriptionId = m_Service.GetType().ToString();
 
-            m_Bus.Received()
-                 .SubscribeAsync(subscriptionId,
-                                 Arg.Any <Func <PingRequestMessage, Task>>());
+            m_Bus.Received().SubscribeAsync(subscriptionId,
+                                            Arg.Any <Func <PingRequestMessage, Task>>());
         }
 
         [Test]
@@ -97,12 +126,10 @@ namespace Selkie.Services.Common.Tests.NUnit
         {
             m_Service.Initialize();
 
-            string subscriptionId = m_Service.GetType()
-                                             .ToString();
+            string subscriptionId = m_Service.GetType().ToString();
 
-            m_Bus.Received()
-                 .SubscribeAsync(subscriptionId,
-                                 Arg.Any <Func <StopServiceRequestMessage, Task>>());
+            m_Bus.Received().SubscribeAsync(subscriptionId,
+                                            Arg.Any <Func <StopServiceRequestMessage, Task>>());
         }
 
         [Test]
@@ -131,12 +158,27 @@ namespace Selkie.Services.Common.Tests.NUnit
         [Test]
         public void PingRequestHandlerSendsReplyTest()
         {
-            PingRequestMessage request = new PingRequestMessage();
+            var request = new PingRequestMessage();
 
             m_Service.PingRequestHandler(request);
 
-            m_Bus.Received()
-                 .PublishAsync(Arg.Is <PingResponseMessage>(x => x.Request == request.Request));
+            m_Bus.Received().PublishAsync(Arg.Is <PingResponseMessage>(x => x.Request == request.Request));
+        }
+
+        [Test]
+        public void PurgeAllQueuesCallsClientTest()
+        {
+            m_Service.PurgeAllQueues();
+
+            m_Client.Received().PurgeAllQueues();
+        }
+
+        [Test]
+        public void PurgeAllQueuesCallsLoggerTest()
+        {
+            m_Service.PurgeAllQueues();
+
+            m_Logger.Received().Info(Arg.Is <string>(x => x.StartsWith("Purging all")));
         }
 
         [Test]
@@ -146,17 +188,15 @@ namespace Selkie.Services.Common.Tests.NUnit
 
             string name = typeof ( TestBaseService ).Name;
 
-            m_Client.Received()
-                    .PurgeAllQueues(Arg.Is <string>(x => x == name));
+            m_Client.Received().PurgeAllQueues(Arg.Is <string>(x => x == name));
         }
 
         [Test]
-        public void PurgeAllQueuesCallsClientTest()
+        public void PurgeAllQueuesForServiceCallsLoggerTest()
         {
-            m_Service.PurgeAllQueues();
+            m_Service.PurgeAllQueuesForService();
 
-            m_Client.Received()
-                    .PurgeAllQueues();
+            m_Logger.Received().Info(Arg.Is <string>(x => x.StartsWith("Purging all")));
         }
 
         [Test]
@@ -167,27 +207,8 @@ namespace Selkie.Services.Common.Tests.NUnit
 
             m_Service.PurgeQueuesRelatedToStoppingThisService();
 
-            m_Client.Received()
-                    .PurgeQueueForServiceAndMessage(Arg.Is <string>(x => x == expectedName),
-                                                    Arg.Is <string>(x => x == expectedMessageName));
-        }
-
-        [Test]
-        public void PurgeAllQueuesForServiceCallsLoggerTest()
-        {
-            m_Service.PurgeAllQueuesForService();
-
-            m_Logger.Received()
-                    .Info(Arg.Is <string>(x => x.StartsWith("Purging all")));
-        }
-
-        [Test]
-        public void PurgeAllQueuesCallsLoggerTest()
-        {
-            m_Service.PurgeAllQueues();
-
-            m_Logger.Received()
-                    .Info(Arg.Is <string>(x => x.StartsWith("Purging all")));
+            m_Client.Received().PurgeQueueForServiceAndMessage(Arg.Is <string>(x => x == expectedName),
+                                                               Arg.Is <string>(x => x == expectedMessageName));
         }
 
         [Test]
@@ -209,11 +230,11 @@ namespace Selkie.Services.Common.Tests.NUnit
         [Test]
         public void StopServicesRequestHandlerDoesNotStopsServiceForIsStopAllServicesFalseAndMatchingServiceNameTest()
         {
-            StopServiceRequestMessage message = new StopServiceRequestMessage
-                                                {
-                                                    IsStopAllServices = false,
-                                                    ServiceName = "Unknown"
-                                                };
+            var message = new StopServiceRequestMessage
+                          {
+                              IsStopAllServices = false,
+                              ServiceName = "Unknown"
+                          };
 
             m_Service.StopServiceRequestHandler(message);
 
@@ -258,11 +279,11 @@ namespace Selkie.Services.Common.Tests.NUnit
         [Test]
         public void StopServicesRequestHandlerStopsServiceForIsStopAllServicesFalseAndMatchingServiceNameTest()
         {
-            StopServiceRequestMessage message = new StopServiceRequestMessage
-                                                {
-                                                    IsStopAllServices = false,
-                                                    ServiceName = typeof ( TestBaseService ).FullName
-                                                };
+            var message = new StopServiceRequestMessage
+                          {
+                              IsStopAllServices = false,
+                              ServiceName = typeof ( TestBaseService ).FullName
+                          };
 
             m_Service.StopServiceRequestHandler(message);
 
@@ -277,38 +298,6 @@ namespace Selkie.Services.Common.Tests.NUnit
             m_Service.StopServiceRequestHandler(message);
 
             Assert.True(m_Service.IsStopped);
-        }
-
-        private class TestBaseService : BaseService
-        {
-            public TestBaseService([NotNull] IBus bus,
-                                   [NotNull] ILogger logger,
-                                   [NotNull] ISelkieManagementClient client)
-                : base(bus,
-                       logger,
-                       client,
-                       typeof ( TestBaseService ).FullName)
-            {
-            }
-
-            public bool WasCalledServiceInitialize { get; private set; }
-            public bool WasCalledServiceStart { get; private set; }
-            public bool WasCalledServiceStop { get; private set; }
-
-            protected override void ServiceInitialize()
-            {
-                WasCalledServiceInitialize = true;
-            }
-
-            protected override void ServiceStart()
-            {
-                WasCalledServiceStart = true;
-            }
-
-            protected override void ServiceStop()
-            {
-                WasCalledServiceStop = true;
-            }
         }
     }
 }

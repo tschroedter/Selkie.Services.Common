@@ -56,8 +56,8 @@ namespace Selkie.Services.Common
         {
             using ( new OneServiceOnly(serviceName) )
             {
-                ServiceProgram program = new ServiceProgram(Container,
-                                                            installer);
+                var program = new ServiceProgram(Container,
+                                                 installer);
 
                 program.Main(isWaitForKey);
             }
