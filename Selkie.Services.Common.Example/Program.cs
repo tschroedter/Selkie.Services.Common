@@ -2,6 +2,7 @@
 using System.Reflection;
 using Castle.Windsor;
 using Castle.Windsor.Installer;
+using Selkie.EasyNetQ;
 
 namespace Selkie.Services.Common.Example
 {

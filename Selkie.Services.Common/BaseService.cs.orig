@@ -3,7 +3,6 @@ using System.Linq;
 using Castle.Core.Logging;
 using EasyNetQ;
 using JetBrains.Annotations;
-using Selkie.EasyNetQ;
 using Selkie.EasyNetQ.Extensions;
 using Selkie.Services.Common.Messages;
 using Selkie.Windsor.Extensions;
@@ -141,11 +140,20 @@ namespace Selkie.Services.Common
 
         internal void StopServiceRequestHandler([NotNull] StopServiceRequestMessage message)
         {
+<<<<<<< HEAD
             string inject = "Received StopServiceRequestMessage width " +
                             "IsStopAllServices = {0} ServiceName = {1}".Inject(message.IsStopAllServices,
                                                                                message.ServiceName);
 
             m_Logger.Debug(inject);
+=======
+            m_Logger.Debug(
+                           "Received StopServiceRequestMessage width IsStopAllServices = {0} ServiceName = {1}".Inject(
+                                                                                                                       message
+                                                                                                                           .IsStopAllServices,
+                                                                                                                       message
+                                                                                                                           .ServiceName));
+>>>>>>> db5c6cce951844e71d2648f733dac8e77beff23d
 
             if ( !IsMessageForMe(message) )
             {

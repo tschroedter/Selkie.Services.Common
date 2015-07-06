@@ -38,7 +38,6 @@
     <Compile Include="IBaseService.cs" />
     <Compile Include="Installer.cs" />
     <Compile Include="ISelkieConsole.cs" />
-    <Compile Include="ISelkieManagementClient.cs" />
     <Compile Include="IService.cs" />
     <Compile Include="IServiceConsole.cs" />
     <Compile Include="IServicesManager.cs" />
@@ -53,7 +52,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SelkieConsole.cs" />
     <Compile Include="SelkieEnvironment.cs" />
-    <Compile Include="SelkieManagementClient.cs" />
     <Compile Include="ServiceConsole.cs" />
     <Compile Include="Messages\StopServiceRequestMessage.cs" />
     <Compile Include="ServicesManager.cs" />
@@ -101,12 +99,12 @@
     <Reference Include="RabbitMQ.Client">
       <HintPath>..\packages\RabbitMQ.Client.3.4.3\lib\net35\RabbitMQ.Client.dll</HintPath>
     </Reference>
-    <Reference Include="Selkie.EasyNetQ, Version=0.6.125.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Selkie.EasyNetQ.0.6.125.0\lib\net45\Selkie.EasyNetQ.dll</HintPath>
+    <Reference Include="Selkie.EasyNetQ, Version=0.6.138.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Selkie.EasyNetQ.0.6.138.0\lib\net45\Selkie.EasyNetQ.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Selkie.Windsor, Version=0.6.210.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Selkie.Windsor.0.6.210.0\lib\net45\Selkie.Windsor.dll</HintPath>
+    <Reference Include="Selkie.Windsor, Version=0.6.218.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Selkie.Windsor.0.6.218.0\lib\net45\Selkie.Windsor.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />

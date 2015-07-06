@@ -1,6 +1,7 @@
 ﻿using Castle.Core.Logging;
 using EasyNetQ;
 using JetBrains.Annotations;
+using Selkie.EasyNetQ;
 using Selkie.Windsor;
 
 namespace Selkie.Services.Common.Example

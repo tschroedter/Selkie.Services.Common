@@ -6,7 +6,6 @@ using EasyNetQ;
 using JetBrains.Annotations;
 using NSubstitute;
 using NUnit.Framework;
-using Selkie.EasyNetQ;
 using Selkie.Services.Common.Messages;
 
 namespace Selkie.Services.Common.Tests.NUnit
@@ -99,9 +98,8 @@ namespace Selkie.Services.Common.Tests.NUnit
 
             m_Service.Initialize();
 
-            m_Client.Received()
-                    .PurgeQueueForServiceAndMessage(Arg.Is <string>(x => x == expectedName),
-                                                    Arg.Is <string>(x => x == expectedMessageName));
+            m_Client.Received().PurgeQueueForServiceAndMessage(Arg.Is <string>(x => x == expectedName),
+                                                               Arg.Is <string>(x => x == expectedMessageName));
         }
 
         [Test]
@@ -117,12 +115,10 @@ namespace Selkie.Services.Common.Tests.NUnit
         {
             m_Service.Initialize();
 
-            string subscriptionId = m_Service.GetType()
-                                             .ToString();
+            string subscriptionId = m_Service.GetType().ToString();
 
-            m_Bus.Received()
-                 .SubscribeAsync(subscriptionId,
-                                 Arg.Any <Func <PingRequestMessage, Task>>());
+            m_Bus.Received().SubscribeAsync(subscriptionId,
+                                            Arg.Any <Func <PingRequestMessage, Task>>());
         }
 
         [Test]
@@ -130,12 +126,10 @@ namespace Selkie.Services.Common.Tests.NUnit
         {
             m_Service.Initialize();
 
-            string subscriptionId = m_Service.GetType()
-                                             .ToString();
+            string subscriptionId = m_Service.GetType().ToString();
 
-            m_Bus.Received()
-                 .SubscribeAsync(subscriptionId,
-                                 Arg.Any <Func <StopServiceRequestMessage, Task>>());
+            m_Bus.Received().SubscribeAsync(subscriptionId,
+                                            Arg.Any <Func <StopServiceRequestMessage, Task>>());
         }
 
         [Test]
@@ -168,8 +162,7 @@ namespace Selkie.Services.Common.Tests.NUnit
 
             m_Service.PingRequestHandler(request);
 
-            m_Bus.Received()
-                 .PublishAsync(Arg.Is <PingResponseMessage>(x => x.Request == request.Request));
+            m_Bus.Received().PublishAsync(Arg.Is <PingResponseMessage>(x => x.Request == request.Request));
         }
 
         [Test]
@@ -177,8 +170,12 @@ namespace Selkie.Services.Common.Tests.NUnit
         {
             m_Service.PurgeAllQueues();
 
+<<<<<<< HEAD
+            m_Client.Received().PurgeAllQueues();
+=======
             m_Client.Received()
                     .PurgeAllQueues();
+>>>>>>> db5c6cce951844e71d2648f733dac8e77beff23d
         }
 
         [Test]
@@ -186,8 +183,12 @@ namespace Selkie.Services.Common.Tests.NUnit
         {
             m_Service.PurgeAllQueues();
 
+<<<<<<< HEAD
+            m_Logger.Received().Info(Arg.Is <string>(x => x.StartsWith("Purging all")));
+=======
             m_Logger.Received()
                     .Info(Arg.Is <string>(x => x.StartsWith("Purging all")));
+>>>>>>> db5c6cce951844e71d2648f733dac8e77beff23d
         }
 
         [Test]
@@ -197,8 +198,12 @@ namespace Selkie.Services.Common.Tests.NUnit
 
             string name = typeof ( TestBaseService ).Name;
 
+<<<<<<< HEAD
+            m_Client.Received().PurgeAllQueues(Arg.Is <string>(x => x == name));
+=======
             m_Client.Received()
                     .PurgeAllQueues(Arg.Is <string>(x => x == name));
+>>>>>>> db5c6cce951844e71d2648f733dac8e77beff23d
         }
 
         [Test]
@@ -206,8 +211,7 @@ namespace Selkie.Services.Common.Tests.NUnit
         {
             m_Service.PurgeAllQueuesForService();
 
-            m_Logger.Received()
-                    .Info(Arg.Is <string>(x => x.StartsWith("Purging all")));
+            m_Logger.Received().Info(Arg.Is <string>(x => x.StartsWith("Purging all")));
         }
 
         [Test]
@@ -218,9 +222,14 @@ namespace Selkie.Services.Common.Tests.NUnit
 
             m_Service.PurgeQueuesRelatedToStoppingThisService();
 
+<<<<<<< HEAD
+            m_Client.Received().PurgeQueueForServiceAndMessage(Arg.Is <string>(x => x == expectedName),
+                                                               Arg.Is <string>(x => x == expectedMessageName));
+=======
             m_Client.Received()
                     .PurgeQueueForServiceAndMessage(Arg.Is <string>(x => x == expectedName),
                                                     Arg.Is <string>(x => x == expectedMessageName));
+>>>>>>> db5c6cce951844e71d2648f733dac8e77beff23d
         }
 
         [Test]
