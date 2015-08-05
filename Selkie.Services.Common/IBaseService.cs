@@ -1,5 +1,6 @@
 ﻿using System;
 using JetBrains.Annotations;
+using Selkie.EasyNetQ;
 
 namespace Selkie.Services.Common
 {
@@ -7,6 +8,8 @@ namespace Selkie.Services.Common
     {
         [NotNull]
         string Name { get; }
+
+        ISelkieManagementClient ManagementClient { get; }
 
         void Start();
         void Stop();

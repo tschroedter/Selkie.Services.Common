@@ -152,6 +152,13 @@ namespace Selkie.Services.Common.Tests.NUnit
         }
 
         [Test]
+        public void ManagementClientDefaultTest()
+        {
+            Assert.AreEqual(m_Client,
+                            m_Service.ManagementClient);
+        }
+
+        [Test]
         public void NameTest()
         {
             string expected = typeof ( TestBaseService ).FullName;

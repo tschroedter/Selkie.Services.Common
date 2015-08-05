@@ -48,6 +48,15 @@ namespace Selkie.Services.Common
 
         public bool IsStopped { get; private set; }
 
+        [NotNull]
+        public ISelkieManagementClient ManagementClient
+        {
+            get
+            {
+                return m_Client;
+            }
+        }
+
         public string Name
         {
             get
