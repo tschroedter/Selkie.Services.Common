@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
-using System.Threading.Tasks;
-using Castle.Core.Logging;
-using EasyNetQ;
 using NSubstitute;
 using NUnit.Framework;
+using Selkie.EasyNetQ;
 using Selkie.Services.Common.Messages;
+using Selkie.Windsor;
 
 namespace Selkie.Services.Common.Tests.NUnit
 {
@@ -17,8 +16,8 @@ namespace Selkie.Services.Common.Tests.NUnit
         [SetUp]
         public void SetUp()
         {
-            m_Bus = Substitute.For <IBus>();
-            m_Logger = Substitute.For <ILogger>();
+            m_Bus = Substitute.For <ISelkieBus>();
+            m_Logger = Substitute.For <ISelkieLogger>();
             m_Sleeper = Substitute.For <ISelkieSleeper>();
 
             m_Manager = new ServicesManager(m_Bus,
@@ -26,8 +25,8 @@ namespace Selkie.Services.Common.Tests.NUnit
                                             m_Sleeper);
         }
 
-        private IBus m_Bus;
-        private ILogger m_Logger;
+        private ISelkieBus m_Bus;
+        private ISelkieLogger m_Logger;
         private ServicesManager m_Manager;
         private ISelkieSleeper m_Sleeper;
 
@@ -35,7 +34,7 @@ namespace Selkie.Services.Common.Tests.NUnit
         public void ConstructorSubscribesToPingRequestMessageTest()
         {
             m_Bus.Received().SubscribeAsync(m_Manager.GetType().ToString(),
-                                            Arg.Any <Func <ServicesStatusResponseMessage, Task>>());
+                                            Arg.Any <Action <ServicesStatusResponseMessage>>());
         }
 
         [Test]

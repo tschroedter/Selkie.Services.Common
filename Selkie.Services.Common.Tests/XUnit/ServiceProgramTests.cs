@@ -1,10 +1,10 @@
 ﻿using System.Diagnostics.CodeAnalysis;
-using Castle.Core.Logging;
 using Castle.MicroKernel.Registration;
 using Castle.Windsor;
 using JetBrains.Annotations;
 using NSubstitute;
 using Ploeh.AutoFixture.Xunit;
+using Selkie.Windsor;
 using Selkie.XUnit.Extensions;
 using Xunit;
 using Xunit.Extensions;
@@ -29,7 +29,7 @@ namespace Selkie.Services.Common.Tests.XUnit
         public void ConstructorCreatesLoggerTest([NotNull] [Frozen] IWindsorContainer container,
                                                  [NotNull] ServiceProgram program)
         {
-            container.Received().Resolve <ILogger>();
+            container.Received().Resolve <ISelkieLogger>();
         }
 
         [Theory]
@@ -95,7 +95,7 @@ namespace Selkie.Services.Common.Tests.XUnit
             program.Main(true);
 
             // assert
-            container.Received().Release(Arg.Any <ILogger>());
+            container.Received().Release(Arg.Any <ISelkieLogger>());
         }
 
         [Theory]

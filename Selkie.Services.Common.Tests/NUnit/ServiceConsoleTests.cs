@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
-using Castle.Core.Logging;
 using NSubstitute;
 using NUnit.Framework;
+using Selkie.Windsor;
 
 namespace Selkie.Services.Common.Tests.NUnit
 {
@@ -15,7 +15,7 @@ namespace Selkie.Services.Common.Tests.NUnit
         [SetUp]
         public void Setup()
         {
-            m_Logger = Substitute.For <ILogger>();
+            m_Logger = Substitute.For <ISelkieLogger>();
             m_Service = Substitute.For <IService>();
             m_Environment = Substitute.For <ISelkieEnvironment>();
             m_Console = Substitute.For <ISelkieConsole>();
@@ -28,7 +28,7 @@ namespace Selkie.Services.Common.Tests.NUnit
 
         private ISelkieConsole m_Console;
         private ISelkieEnvironment m_Environment;
-        private ILogger m_Logger;
+        private ISelkieLogger m_Logger;
         private IService m_Service;
         private ServiceConsole m_ServiceConsole;
 

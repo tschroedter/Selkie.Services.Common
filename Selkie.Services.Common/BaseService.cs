@@ -1,24 +1,22 @@
 using System;
 using System.Linq;
-using Castle.Core.Logging;
-using EasyNetQ;
 using JetBrains.Annotations;
 using Selkie.EasyNetQ;
-using Selkie.EasyNetQ.Extensions;
 using Selkie.Services.Common.Messages;
+using Selkie.Windsor;
 using Selkie.Windsor.Extensions;
 
 namespace Selkie.Services.Common
 {
     public abstract class BaseService : IBaseService
     {
-        private readonly IBus m_Bus;
+        private readonly ISelkieBus m_Bus;
         private readonly ISelkieManagementClient m_Client;
-        private readonly ILogger m_Logger;
+        private readonly ISelkieLogger m_Logger;
         private readonly string m_Name;
 
-        protected BaseService([NotNull] IBus bus,
-                              [NotNull] ILogger logger,
+        protected BaseService([NotNull] ISelkieBus bus,
+                              [NotNull] ISelkieLogger logger,
                               [NotNull] ISelkieManagementClient client,
                               [NotNull] string name)
         {
@@ -29,7 +27,7 @@ namespace Selkie.Services.Common
         }
 
         [NotNull]
-        public IBus Bus
+        public ISelkieBus Bus
         {
             get
             {
@@ -38,7 +36,7 @@ namespace Selkie.Services.Common
         }
 
         [NotNull]
-        public ILogger Logger
+        public ISelkieLogger Logger
         {
             get
             {
@@ -110,7 +108,7 @@ namespace Selkie.Services.Common
                 m_Client.PurgeQueueForServiceAndMessage(name,
                                                         typeof ( StopServiceRequestMessage ).Name);
             }
-            catch ( Exception exception ) // todo this is bad
+            catch ( Exception exception )
             {
                 m_Logger.Error("Couldn't purge all 'Stop Service' queues!",
                                exception);
@@ -136,16 +134,14 @@ namespace Selkie.Services.Common
 
         private void SubscribeToServiceStopRequestMessage()
         {
-            Bus.SubscribeHandlerAsync <StopServiceRequestMessage>(Logger,
-                                                                  GetType().ToString(),
-                                                                  StopServiceRequestHandler);
+            Bus.SubscribeAsync <StopServiceRequestMessage>(GetType().ToString(),
+                                                           StopServiceRequestHandler);
         }
 
         private void SubscribeToPingRequestMessage()
         {
-            Bus.SubscribeHandlerAsync <PingRequestMessage>(Logger,
-                                                           GetType().ToString(),
-                                                           PingRequestHandler);
+            Bus.SubscribeAsync <PingRequestMessage>(GetType().ToString(),
+                                                    PingRequestHandler);
         }
 
         internal void StopServiceRequestHandler([NotNull] StopServiceRequestMessage message)

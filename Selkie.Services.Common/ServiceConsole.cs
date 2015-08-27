@@ -1,6 +1,5 @@
 using System;
 using System.Threading;
-using Castle.Core.Logging;
 using JetBrains.Annotations;
 using Selkie.Windsor;
 using Selkie.Windsor.Extensions;
@@ -12,10 +11,10 @@ namespace Selkie.Services.Common
     {
         private readonly ISelkieConsole m_Console;
         private readonly ISelkieEnvironment m_Environment;
-        private readonly ILogger m_Logger;
+        private readonly ISelkieLogger m_Logger;
         private readonly IService m_Service;
 
-        public ServiceConsole([NotNull] ILogger logger,
+        public ServiceConsole([NotNull] ISelkieLogger logger,
                               [NotNull] ISelkieConsole console,
                               [NotNull] ISelkieEnvironment environment,
                               [NotNull] IService service)

@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
-using System.Threading.Tasks;
-using Castle.Core.Logging;
-using EasyNetQ;
 using JetBrains.Annotations;
 using NSubstitute;
 using NUnit.Framework;
 using Selkie.EasyNetQ;
 using Selkie.Services.Common.Messages;
+using Selkie.Windsor;
 
 namespace Selkie.Services.Common.Tests.NUnit
 {
@@ -20,8 +18,8 @@ namespace Selkie.Services.Common.Tests.NUnit
         [SetUp]
         public void Setup()
         {
-            m_Bus = Substitute.For <IBus>();
-            m_Logger = Substitute.For <ILogger>();
+            m_Bus = Substitute.For <ISelkieBus>();
+            m_Logger = Substitute.For <ISelkieLogger>();
             m_Client = Substitute.For <ISelkieManagementClient>();
 
             m_Service = new TestBaseService(m_Bus,
@@ -29,9 +27,9 @@ namespace Selkie.Services.Common.Tests.NUnit
                                             m_Client);
         }
 
-        private IBus m_Bus;
+        private ISelkieBus m_Bus;
         private ISelkieManagementClient m_Client;
-        private ILogger m_Logger;
+        private ISelkieLogger m_Logger;
         private TestBaseService m_Service;
         private bool m_WasRaisedServiceStopped;
 
@@ -54,8 +52,8 @@ namespace Selkie.Services.Common.Tests.NUnit
 
         private class TestBaseService : BaseService
         {
-            public TestBaseService([NotNull] IBus bus,
-                                   [NotNull] ILogger logger,
+            public TestBaseService([NotNull] ISelkieBus bus,
+                                   [NotNull] ISelkieLogger logger,
                                    [NotNull] ISelkieManagementClient client)
                 : base(bus,
                        logger,
@@ -122,7 +120,7 @@ namespace Selkie.Services.Common.Tests.NUnit
 
             m_Bus.Received()
                  .SubscribeAsync(subscriptionId,
-                                 Arg.Any <Func <PingRequestMessage, Task>>());
+                                 Arg.Any <Action <PingRequestMessage>>());
         }
 
         [Test]
@@ -135,7 +133,7 @@ namespace Selkie.Services.Common.Tests.NUnit
 
             m_Bus.Received()
                  .SubscribeAsync(subscriptionId,
-                                 Arg.Any <Func <StopServiceRequestMessage, Task>>());
+                                 Arg.Any <Action <StopServiceRequestMessage>>());
         }
 
         [Test]

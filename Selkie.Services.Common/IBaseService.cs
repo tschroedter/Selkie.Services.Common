@@ -10,7 +10,6 @@ namespace Selkie.Services.Common
         string Name { get; }
 
         ISelkieManagementClient ManagementClient { get; }
-
         void Start();
         void Stop();
         void Initialize();

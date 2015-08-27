@@ -1,6 +1,4 @@
-﻿using Castle.Core.Logging;
-using EasyNetQ;
-using JetBrains.Annotations;
+﻿using JetBrains.Annotations;
 using Selkie.EasyNetQ;
 using Selkie.Windsor;
 
@@ -11,8 +9,8 @@ namespace Selkie.Services.Common.Example
         : BaseService,
           IService
     {
-        public TestService([NotNull] IBus bus,
-                           [NotNull] ILogger logger,
+        public TestService([NotNull] ISelkieBus bus,
+                           [NotNull] ISelkieLogger logger,
                            [NotNull] ISelkieManagementClient client)
             : base(bus,
                    logger,

@@ -1,8 +1,8 @@
 using System.Diagnostics.CodeAnalysis;
-using Castle.Core.Logging;
 using Castle.MicroKernel.Registration;
 using Castle.Windsor;
 using JetBrains.Annotations;
+using Selkie.Windsor;
 
 namespace Selkie.Services.Common
 {
@@ -11,7 +11,7 @@ namespace Selkie.Services.Common
     public class ServiceProgram
     {
         private readonly IWindsorContainer m_Container;
-        private readonly ILogger m_Logger;
+        private readonly ISelkieLogger m_Logger;
         private readonly IServiceConsole m_ServiceConsole;
 
         public ServiceProgram([NotNull] IWindsorContainer container,
@@ -19,12 +19,12 @@ namespace Selkie.Services.Common
         {
             m_Container = container;
             m_Container.Install(installer);
-            m_Logger = container.Resolve <ILogger>();
+            m_Logger = container.Resolve <ISelkieLogger>();
             m_ServiceConsole = container.Resolve <IServiceConsole>();
         }
 
         [NotNull]
-        public ILogger Logger
+        public ISelkieLogger Logger
         {
             get
             {
