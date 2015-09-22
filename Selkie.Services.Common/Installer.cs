@@ -7,5 +7,9 @@ namespace Selkie.Services.Common
     //ncrunch: no coverage start
     public class Installer : BaseInstaller <Installer>
     {
+        public override string GetPrefixOfDllsToInstall()
+        {
+            return "Selkie.";
+        }
     }
 }

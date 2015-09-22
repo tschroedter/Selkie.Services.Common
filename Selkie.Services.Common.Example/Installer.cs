@@ -9,6 +9,11 @@ namespace Selkie.Services.Common.Example
         : BasicConsoleInstaller,
           IWindsorInstaller
     {
+        public override string GetPrefixOfDllsToInstall()
+        {
+            return "Selkie.";
+        }
+
         public new void Install(IWindsorContainer container,
                                 IConfigurationStore store)
         {
