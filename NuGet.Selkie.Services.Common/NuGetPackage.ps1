@@ -216,8 +216,10 @@ function Publish {
 
 	Write-Log " "
 	Write-Log "Publishing package..." -ForegroundColor Green
+	Write-Log "...ignored because Bamboo does it!"
 
 	# Get nuget config
+	<#
 	[xml]$nugetConfig = Get-Content .\NuGet.Config
 	
 	$nugetConfig.configuration.packageSources.add | ForEach-Object {
@@ -247,6 +249,8 @@ function Publish {
 			}                
 		}
 	}
+	#>
+	$global:ExitCode = 0
 }
 
 Write-Log " "

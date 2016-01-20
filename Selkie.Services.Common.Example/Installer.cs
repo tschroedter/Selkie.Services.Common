@@ -9,11 +9,6 @@ namespace Selkie.Services.Common.Example
         : BasicConsoleInstaller,
           IWindsorInstaller
     {
-        public override string GetPrefixOfDllsToInstall()
-        {
-            return "Selkie.";
-        }
-
         public new void Install(IWindsorContainer container,
                                 IConfigurationStore store)
         {
@@ -21,6 +16,11 @@ namespace Selkie.Services.Common.Example
                          store);
 
             container.Register(Component.For <IService>().ImplementedBy <TestService>().LifeStyle.Transient);
+        }
+
+        public override string GetPrefixOfDllsToInstall()
+        {
+            return "Selkie.";
         }
 
         protected override void InstallComponents(IWindsorContainer container,

@@ -1,15 +1,8 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using Selkie.Windsor;
+﻿using Selkie.Common;
 
 namespace Selkie.Services.Common
 {
-    [ExcludeFromCodeCoverage]
-    //ncrunch: no coverage start
-    public class Installer : BaseInstaller <Installer>
+    public class Installer : SelkieInstaller <Installer>
     {
-        public override string GetPrefixOfDllsToInstall()
-        {
-            return "Selkie.";
-        }
     }
 }
