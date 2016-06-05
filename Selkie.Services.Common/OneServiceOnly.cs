@@ -11,10 +11,6 @@ namespace Selkie.Services.Common
     //ncrunch: no coverage start
     internal class OneServiceOnly : IDisposable
     {
-        private const int TimeOut = 1000; // 1 second
-        public bool HasHandle;
-        private Mutex m_Mutex;
-
         public OneServiceOnly([NotNull] string serviceName)
         {
             InitializeMutex(serviceName);
@@ -34,6 +30,10 @@ namespace Selkie.Services.Common
                 HasHandle = true;
             }
         }
+
+        private const int TimeOut = 1000; // 1 second
+        public bool HasHandle;
+        private Mutex m_Mutex;
 
         public void Dispose()
         {

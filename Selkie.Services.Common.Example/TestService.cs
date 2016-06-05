@@ -19,6 +19,11 @@ namespace Selkie.Services.Common.Example
         {
         }
 
+        protected override void ServiceInitialize()
+        {
+            Logger.Info("ServiceInitialize()");
+        }
+
         protected override void ServiceStart()
         {
             Logger.Info("ServiceStart()");
@@ -27,11 +32,6 @@ namespace Selkie.Services.Common.Example
         protected override void ServiceStop()
         {
             Logger.Info("ServiceStop()");
-        }
-
-        protected override void ServiceInitialize()
-        {
-            Logger.Info("ServiceInitialize()");
         }
     }
 }

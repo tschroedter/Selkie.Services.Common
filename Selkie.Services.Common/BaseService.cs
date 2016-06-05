@@ -10,11 +10,6 @@ namespace Selkie.Services.Common
 {
     public abstract class BaseService : IBaseService
     {
-        private readonly ISelkieBus m_Bus;
-        private readonly ISelkieManagementClient m_Client;
-        private readonly ISelkieLogger m_Logger;
-        private readonly string m_Name;
-
         protected BaseService([NotNull] ISelkieBus bus,
                               [NotNull] ISelkieLogger logger,
                               [NotNull] ISelkieManagementClient client,
@@ -44,7 +39,13 @@ namespace Selkie.Services.Common
             }
         }
 
+        [UsedImplicitly]
         public bool IsStopped { get; private set; }
+
+        private readonly ISelkieBus m_Bus;
+        private readonly ISelkieManagementClient m_Client;
+        private readonly ISelkieLogger m_Logger;
+        private readonly string m_Name;
 
         [NotNull]
         public ISelkieManagementClient ManagementClient
@@ -106,7 +107,7 @@ namespace Selkie.Services.Common
                 string name = m_Name.Split(' ').First();
 
                 m_Client.PurgeQueueForServiceAndMessage(name,
-                                                        typeof ( StopServiceRequestMessage ).Name);
+                                                        typeof( StopServiceRequestMessage ).Name);
             }
             catch ( Exception exception )
             {
@@ -121,6 +122,13 @@ namespace Selkie.Services.Common
             m_Client.PurgeAllQueues();
         }
 
+        protected virtual bool IsMessageForMe([NotNull] StopServiceRequestMessage message)
+        {
+            bool isMessageForMe = message.IsStopAllServices || message.ServiceName == Name;
+
+            return isMessageForMe;
+        }
+
         protected virtual void OnServiceStopped([NotNull] EventArgs e)
         {
             EventHandler handler = ServiceStopped;
@@ -132,16 +140,20 @@ namespace Selkie.Services.Common
             }
         }
 
-        private void SubscribeToServiceStopRequestMessage()
-        {
-            Bus.SubscribeAsync <StopServiceRequestMessage>(GetType().ToString(),
-                                                           StopServiceRequestHandler);
-        }
+        protected abstract void ServiceInitialize();
 
-        private void SubscribeToPingRequestMessage()
+        protected abstract void ServiceStart();
+        protected abstract void ServiceStop();
+
+        internal void PingRequestHandler([NotNull] PingRequestMessage message)
         {
-            Bus.SubscribeAsync <PingRequestMessage>(GetType().ToString(),
-                                                    PingRequestHandler);
+            var reply = new PingResponseMessage
+                        {
+                            ServiceName = m_Name,
+                            Request = message.Request
+                        };
+
+            Bus.PublishAsync(reply);
         }
 
         internal void StopServiceRequestHandler([NotNull] StopServiceRequestMessage message)
@@ -170,26 +182,16 @@ namespace Selkie.Services.Common
             OnServiceStopped(EventArgs.Empty);
         }
 
-        protected virtual bool IsMessageForMe([NotNull] StopServiceRequestMessage message)
+        private void SubscribeToPingRequestMessage()
         {
-            bool isMessageForMe = message.IsStopAllServices || message.ServiceName == Name;
-
-            return isMessageForMe;
+            Bus.SubscribeAsync <PingRequestMessage>(GetType().ToString(),
+                                                    PingRequestHandler);
         }
 
-        internal void PingRequestHandler([NotNull] PingRequestMessage message)
+        private void SubscribeToServiceStopRequestMessage()
         {
-            var reply = new PingResponseMessage
-                        {
-                            ServiceName = m_Name,
-                            Request = message.Request
-                        };
-
-            Bus.PublishAsync(reply);
+            Bus.SubscribeAsync <StopServiceRequestMessage>(GetType().ToString(),
+                                                           StopServiceRequestHandler);
         }
-
-        protected abstract void ServiceStart();
-        protected abstract void ServiceStop();
-        protected abstract void ServiceInitialize();
     }
 }

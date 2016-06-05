@@ -10,10 +10,6 @@ namespace Selkie.Services.Common
     //ncrunch: no coverage start
     public class ServiceProgram
     {
-        private readonly IWindsorContainer m_Container;
-        private readonly ISelkieLogger m_Logger;
-        private readonly IServiceConsole m_ServiceConsole;
-
         public ServiceProgram([NotNull] IWindsorContainer container,
                               [NotNull] IWindsorInstaller installer)
         {
@@ -31,6 +27,10 @@ namespace Selkie.Services.Common
                 return m_Logger;
             }
         }
+
+        private readonly IWindsorContainer m_Container;
+        private readonly ISelkieLogger m_Logger;
+        private readonly IServiceConsole m_ServiceConsole;
 
         public void Main(bool isWaitForKey)
         {

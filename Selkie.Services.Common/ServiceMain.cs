@@ -14,6 +14,14 @@ namespace Selkie.Services.Common
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private static readonly IWindsorContainer Container = new WindsorContainer();
 
+        public static void StartServiceAndRunForever([NotNull] IWindsorInstaller installer,
+                                                     [NotNull] string serviceName)
+        {
+            StartService(installer,
+                         serviceName,
+                         false);
+        }
+
         public static void StartServiceAndWaitForKey([NotNull] IWindsorInstaller installer,
                                                      [NotNull] string serviceName)
         {
@@ -22,12 +30,33 @@ namespace Selkie.Services.Common
                          true);
         }
 
-        public static void StartServiceAndRunForever([NotNull] IWindsorInstaller installer,
-                                                     [NotNull] string serviceName)
+        private static void LogException([NotNull] Exception exception)
         {
-            StartService(installer,
-                         serviceName,
-                         false);
+            string message = "Big trouble..." + Environment.NewLine + exception;
+
+            if ( Logger != null )
+            {
+                Logger.Error(message);
+            }
+            else
+            {
+                Console.WriteLine(message);
+                Console.WriteLine("Press 'Return' to continue...");
+                Console.ReadLine();
+            }
+        }
+
+        private static void StartOnlyOneService([NotNull] IWindsorInstaller installer,
+                                                [NotNull] string serviceName,
+                                                bool isWaitForKey)
+        {
+            using ( new OneServiceOnly(serviceName) )
+            {
+                var program = new ServiceProgram(Container,
+                                                 installer);
+
+                program.Main(isWaitForKey);
+            }
         }
 
         private static void StartService([NotNull] IWindsorInstaller installer,
@@ -47,35 +76,6 @@ namespace Selkie.Services.Common
             catch ( Exception exception )
             {
                 LogException(exception);
-            }
-        }
-
-        private static void StartOnlyOneService([NotNull] IWindsorInstaller installer,
-                                                [NotNull] string serviceName,
-                                                bool isWaitForKey)
-        {
-            using ( new OneServiceOnly(serviceName) )
-            {
-                var program = new ServiceProgram(Container,
-                                                 installer);
-
-                program.Main(isWaitForKey);
-            }
-        }
-
-        private static void LogException([NotNull] Exception exception)
-        {
-            string message = "Big trouble..." + Environment.NewLine + exception;
-
-            if ( Logger != null )
-            {
-                Logger.Error(message);
-            }
-            else
-            {
-                Console.WriteLine(message);
-                Console.WriteLine("Press 'Return' to continue...");
-                Console.ReadLine();
             }
         }
     }

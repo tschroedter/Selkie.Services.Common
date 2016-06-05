@@ -10,12 +10,12 @@ namespace Selkie.Services.Common
         string Name { get; }
 
         ISelkieManagementClient ManagementClient { get; }
+        void Initialize();
+        void PurgeAllQueues();
+        void PurgeAllQueuesForService();
+        void PurgeQueuesRelatedToStoppingThisService();
+        event EventHandler ServiceStopped;
         void Start();
         void Stop();
-        void Initialize();
-        event EventHandler ServiceStopped;
-        void PurgeAllQueuesForService();
-        void PurgeAllQueues();
-        void PurgeQueuesRelatedToStoppingThisService();
     }
 }

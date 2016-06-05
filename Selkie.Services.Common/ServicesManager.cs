@@ -8,12 +8,6 @@ namespace Selkie.Services.Common
     [ProjectComponent(Lifestyle.Singleton)]
     public class ServicesManager : IServicesManager
     {
-        internal const int OneSecond = 1000;
-        private readonly ISelkieBus m_Bus;
-        private readonly ISelkieLogger m_Logger;
-        private readonly ISelkieSleeper m_Sleeper;
-        private int m_MaxTries = 10;
-
         public ServicesManager([NotNull] ISelkieBus bus,
                                [NotNull] ISelkieLogger logger,
                                [NotNull] ISelkieSleeper sleeper)
@@ -25,6 +19,12 @@ namespace Selkie.Services.Common
             bus.SubscribeAsync <ServicesStatusResponseMessage>(GetType().ToString(),
                                                                ServicesStatusResponseHandler);
         }
+
+        internal const int OneSecond = 1000;
+        private readonly ISelkieBus m_Bus;
+        private readonly ISelkieLogger m_Logger;
+        private readonly ISelkieSleeper m_Sleeper;
+        private int m_MaxTries = 10;
 
         public void StopServices()
         {
