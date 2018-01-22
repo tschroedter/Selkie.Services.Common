@@ -2,6 +2,16 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
+    <Version>1.0.1</Version>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <Copyright>Copyright © Thomas Schroedter 2017</Copyright>
+    <PackageLicenseUrl>https://github.com/tschroedter/Selkie.Services.Common/blob/dotnetcore2/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/tschroedter/Selkie.Services.Common/tree/dotnetcore2</PackageProjectUrl>
+    <PackageIconUrl>https://github.com/tschroedter/Selkie/blob/master/LaptopDeskPerson.png</PackageIconUrl>
+    <RepositoryUrl>https://github.com/tschroedter/Selkie.Services.Common/tree/dotnetcore2</RepositoryUrl>
+    <PackageTags>Selkie Services Common Core2</PackageTags>
+    <Description>The Selkie.Services.Common project creates a NuGet package. The package contains common classes used by Selkie services, e.g. ServiceConsole, ServiceMain, ServiceManager...</Description>
   </PropertyGroup>
 
   <ItemGroup>
