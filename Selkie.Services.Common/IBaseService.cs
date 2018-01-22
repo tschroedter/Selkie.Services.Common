@@ -1,6 +1,7 @@
 ﻿using System;
 using JetBrains.Annotations;
 using Core2.Selkie.EasyNetQ;
+using Selkie.EasyNetQ;
 
 namespace Core2.Selkie.Services.Common
 {

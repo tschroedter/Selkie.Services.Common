@@ -1,10 +1,10 @@
 using System;
 using System.Linq;
 using JetBrains.Annotations;
-using Core2.Selkie.EasyNetQ;
 using Core2.Selkie.Services.Common.Messages;
-using Core2.Selkie.Windsor;
-using Core2.Selkie.Windsor.Extensions;
+using Selkie.EasyNetQ;
+using Selkie.Windsor;
+using Selkie.Windsor.Extensions;
 
 namespace Core2.Selkie.Services.Common
 {

@@ -6,7 +6,6 @@ using Core2.Selkie.Services.Common.Interfaces;
 using Core2.Selkie.Windsor;
 using Core2.Selkie.Windsor.Interfaces;
 using JetBrains.Annotations;
-using ISelkieConsole = Core2.Selkie.Services.Common.Interfaces.ISelkieConsole;
 
 namespace Core2.Selkie.Services.Common
 {
