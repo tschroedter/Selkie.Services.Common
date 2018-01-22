@@ -1,4 +1,4 @@
-﻿namespace Selkie.Services.Common.Messages
+﻿namespace Core2.Selkie.Services.Common.Messages
 {
     public class ServicesStatusResponseMessage
     {

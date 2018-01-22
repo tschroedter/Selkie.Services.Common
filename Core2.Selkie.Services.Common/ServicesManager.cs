@@ -1,7 +1,9 @@
-﻿using JetBrains.Annotations;
-using Core2.Selkie.EasyNetQ;
+﻿using Core2.Selkie.EasyNetQ.Interfaces;
+using Core2.Selkie.Services.Common.Interfaces;
 using Core2.Selkie.Services.Common.Messages;
 using Core2.Selkie.Windsor;
+using Core2.Selkie.Windsor.Interfaces;
+using JetBrains.Annotations;
 
 namespace Core2.Selkie.Services.Common
 {
@@ -20,11 +22,12 @@ namespace Core2.Selkie.Services.Common
                                                                ServicesStatusResponseHandler);
         }
 
+        [UsedImplicitly]
         internal const int OneSecond = 1000;
+
         private readonly ISelkieBus m_Bus;
         private readonly ISelkieLogger m_Logger;
         private readonly ISelkieSleeper m_Sleeper;
-        private int m_MaxTries = 10;
 
         public void StopServices()
         {
@@ -40,7 +43,7 @@ namespace Core2.Selkie.Services.Common
             var tries = 0;
 
             while ( !IsAllServicesRunning &&
-                    tries++ < m_MaxTries )
+                    tries++ < MaxTries )
             {
                 m_Logger.Info("Waiting for services to start...");
                 m_Sleeper.Sleep(OneSecond);
@@ -49,18 +52,10 @@ namespace Core2.Selkie.Services.Common
 
         public bool IsAllServicesRunning { get; private set; }
 
-        public int MaxTries
-        {
-            get
-            {
-                return m_MaxTries;
-            }
-            set
-            {
-                m_MaxTries = value;
-            }
-        }
+        [UsedImplicitly]
+        public int MaxTries { get; set; } = 10;
 
+        [UsedImplicitly]
         internal void ServicesStatusResponseHandler([NotNull] ServicesStatusResponseMessage message)
         {
             IsAllServicesRunning = message.IsAllServicesRunning;

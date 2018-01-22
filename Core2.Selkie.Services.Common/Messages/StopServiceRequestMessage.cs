@@ -1,14 +1,14 @@
-﻿using System;
 using JetBrains.Annotations;
 
 namespace Core2.Selkie.Services.Common.Messages
 {
-    public class PingResponseMessage
+    public class StopServiceRequestMessage
     {
-        public DateTime Request;
-        public DateTime Response;
+        [UsedImplicitly]
+        public bool IsStopAllServices;
 
         [NotNull]
+        [UsedImplicitly]
         public string ServiceName = "Unknown";
     }
 }

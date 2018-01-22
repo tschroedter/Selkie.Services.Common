@@ -1,10 +1,10 @@
 using System;
 using System.Linq;
-using JetBrains.Annotations;
-using Core2.Selkie.EasyNetQ;
+using Core2.Selkie.EasyNetQ.Interfaces;
+using Core2.Selkie.Services.Common.Interfaces;
 using Core2.Selkie.Services.Common.Messages;
-using Core2.Selkie.Windsor;
-using Core2.Selkie.Windsor.Extensions;
+using Core2.Selkie.Windsor.Interfaces;
+using JetBrains.Annotations;
 
 namespace Core2.Selkie.Services.Common
 {
@@ -15,113 +15,87 @@ namespace Core2.Selkie.Services.Common
                               [NotNull] ISelkieManagementClient client,
                               [NotNull] string name)
         {
-            m_Bus = bus;
-            m_Logger = logger;
-            m_Client = client;
-            m_Name = name;
+            Bus = bus;
+            Logger = logger;
+            ManagementClient = client;
+            Name = name;
         }
 
         [NotNull]
-        public ISelkieBus Bus
-        {
-            get
-            {
-                return m_Bus;
-            }
-        }
+        [UsedImplicitly]
+        public ISelkieBus Bus { get; }
 
         [NotNull]
-        public ISelkieLogger Logger
-        {
-            get
-            {
-                return m_Logger;
-            }
-        }
+        [UsedImplicitly]
+        public ISelkieLogger Logger { get; }
 
         [UsedImplicitly]
         public bool IsStopped { get; private set; }
 
-        private readonly ISelkieBus m_Bus;
-        private readonly ISelkieManagementClient m_Client;
-        private readonly ISelkieLogger m_Logger;
-        private readonly string m_Name;
-
         [NotNull]
-        public ISelkieManagementClient ManagementClient
-        {
-            get
-            {
-                return m_Client;
-            }
-        }
+        public ISelkieManagementClient ManagementClient { get; }
 
-        public string Name
-        {
-            get
-            {
-                return m_Name;
-            }
-        }
+        public string Name { get; }
 
         public event EventHandler ServiceStopped;
 
         public void Initialize()
         {
-            m_Logger.Info("Initializing service...");
+            Logger.Info("Initializing service...");
             PurgeQueuesRelatedToStoppingThisService();
             SubscribeToServiceStopRequestMessage();
             SubscribeToPingRequestMessage();
             ServiceInitialize();
-            m_Logger.Info("...service initialized!");
+            Logger.Info("...service initialized!");
         }
 
         public void Start()
         {
-            m_Logger.Info("Service: '{0}'...".Inject(GetType()));
-            m_Logger.Info("Starting service...");
+            Logger.Info($"Service: '{GetType()}'...");
+            Logger.Info("Starting service...");
             ServiceStart();
-            m_Logger.Info("...service started!");
+            Logger.Info("...service started!");
         }
 
         public void Stop()
         {
-            m_Logger.Info("Stopping service...");
+            Logger.Info("Stopping service...");
             ServiceStop();
-            m_Logger.Info("...service stopped!");
+            Logger.Info("...service stopped!");
         }
 
         public void PurgeAllQueuesForService()
         {
             string name = GetType().Name;
-            Logger.Info("Purging all queues for '{0}'...".Inject(m_Name));
-            m_Client.PurgeAllQueues(name);
+            Logger.Info($"Purging all queues for '{Name}'...");
+            ManagementClient.PurgeAllQueues(name);
         }
 
         public void PurgeQueuesRelatedToStoppingThisService()
         {
-            m_Logger.Info("Purge all 'Stop Service' queues...");
+            Logger.Info("Purge all 'Stop Service' queues...");
 
             try
             {
-                string name = m_Name.Split(' ').First();
+                string name = Name.Split(' ').First();
 
-                m_Client.PurgeQueueForServiceAndMessage(name,
-                                                        typeof( StopServiceRequestMessage ).Name);
+                ManagementClient.PurgeQueueForServiceAndMessage(name,
+                                                                typeof( StopServiceRequestMessage ).Name);
             }
             catch ( Exception exception )
             {
-                m_Logger.Error("Couldn't purge all 'Stop Service' queues!",
-                               exception);
+                Logger.Error("Couldn't purge all 'Stop Service' queues!",
+                             exception);
             }
         }
 
         public void PurgeAllQueues()
         {
             Logger.Info("Purging all queues...");
-            m_Client.PurgeAllQueues();
+            ManagementClient.PurgeAllQueues();
         }
 
+        // ReSharper disable once VirtualMemberNeverOverridden.Global
         protected virtual bool IsMessageForMe([NotNull] StopServiceRequestMessage message)
         {
             bool isMessageForMe = message.IsStopAllServices || message.ServiceName == Name;
@@ -129,15 +103,13 @@ namespace Core2.Selkie.Services.Common
             return isMessageForMe;
         }
 
+        // ReSharper disable once VirtualMemberNeverOverridden.Global
         protected virtual void OnServiceStopped([NotNull] EventArgs e)
         {
             EventHandler handler = ServiceStopped;
 
-            if ( handler != null )
-            {
-                handler(this,
-                        e);
-            }
+            handler?.Invoke(this,
+                            e);
         }
 
         protected abstract void ServiceInitialize();
@@ -145,24 +117,25 @@ namespace Core2.Selkie.Services.Common
         protected abstract void ServiceStart();
         protected abstract void ServiceStop();
 
+        [UsedImplicitly]
         internal void PingRequestHandler([NotNull] PingRequestMessage message)
         {
             var reply = new PingResponseMessage
                         {
-                            ServiceName = m_Name,
+                            ServiceName = Name,
                             Request = message.Request
                         };
 
             Bus.PublishAsync(reply);
         }
 
+        [UsedImplicitly]
         internal void StopServiceRequestHandler([NotNull] StopServiceRequestMessage message)
         {
             string inject = "Received StopServiceRequestMessage width " +
-                            "IsStopAllServices = {0} ServiceName = {1}".Inject(message.IsStopAllServices,
-                                                                               message.ServiceName);
+                            $"IsStopAllServices = {message.IsStopAllServices} ServiceName = {message.ServiceName}";
 
-            m_Logger.Debug(inject);
+            Logger.Debug(inject);
 
             if ( !IsMessageForMe(message) )
             {
@@ -177,7 +150,7 @@ namespace Core2.Selkie.Services.Common
                                   {
                                       ServiceName = Name
                                   };
-            m_Bus.Publish(responseMessage);
+            Bus.Publish(responseMessage);
 
             OnServiceStopped(EventArgs.Empty);
         }

@@ -186,3 +186,4 @@ FakesAssemblies/
 *.bak
 *.ncrunchproject
 NuGet.Selkie.Services.Common/lib/
+/.vs/Selkie.Services.Common/v15/Server/sqlite3

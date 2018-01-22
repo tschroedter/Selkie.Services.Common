@@ -1,14 +1,17 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading;
-using JetBrains.Annotations;
 using Core2.Selkie.Common.Interfaces;
+using Core2.Selkie.Services.Common.Interfaces;
 using Core2.Selkie.Windsor;
-using Core2.Selkie.Windsor.Extensions;
+using Core2.Selkie.Windsor.Interfaces;
+using JetBrains.Annotations;
+using ISelkieConsole = Core2.Selkie.Services.Common.Interfaces.ISelkieConsole;
 
 namespace Core2.Selkie.Services.Common
 {
     [ProjectComponent(Lifestyle.Singleton)]
+    [UsedImplicitly]
     public sealed class ServiceConsole : IServiceConsole
     {
         public ServiceConsole([NotNull] ISelkieLogger logger,
@@ -39,6 +42,7 @@ namespace Core2.Selkie.Services.Common
             m_Service.Stop();
         }
 
+        [UsedImplicitly]
         internal void OnServiceStopped([NotNull] object sender,
                                        [NotNull] EventArgs e)
         {
@@ -52,7 +56,7 @@ namespace Core2.Selkie.Services.Common
             {
                 Thread.Sleep(30000);
 
-                m_Logger.Info("{0} is running...".Inject(m_Service.Name));
+                m_Logger.Info($"{m_Service.Name} is running...");
             }
             // ReSharper disable once FunctionNeverReturns
         }

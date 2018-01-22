@@ -3,12 +3,10 @@ using JetBrains.Annotations;
 
 namespace Core2.Selkie.Services.Common.Messages
 {
-    public class PingResponseMessage
+    [UsedImplicitly]
+    public class PingRequestMessage
     {
+        [UsedImplicitly]
         public DateTime Request;
-        public DateTime Response;
-
-        [NotNull]
-        public string ServiceName = "Unknown";
     }
 }

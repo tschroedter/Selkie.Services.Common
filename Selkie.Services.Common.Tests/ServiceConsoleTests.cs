@@ -2,10 +2,10 @@
 using System.Diagnostics.CodeAnalysis;
 using NSubstitute;
 using NUnit.Framework;
-using Selkie.Common.Interfaces;
-using Selkie.Windsor;
+using Core2.Selkie.Common.Interfaces;
+using Core2.Selkie.Windsor;
 
-namespace Selkie.Services.Common.Tests.NUnit
+namespace Core2.Selkie.Services.Common.Tests.NUnit
 {
     [SuppressMessage("Microsoft.Design", "CA1001:TypesThatOwnDisposableFieldsShouldBeDisposable")]
     [TestFixture]

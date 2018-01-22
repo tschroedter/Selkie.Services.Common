@@ -31,8 +31,11 @@ namespace Core2.Selkie.Services.Common
             }
         }
 
-        private const int TimeOut = 1000; // 1 second
+        private const int TimeOut = 1000; // 1 
+
+        [UsedImplicitly]
         public bool HasHandle;
+
         private Mutex m_Mutex;
 
         public void Dispose()
@@ -65,9 +68,5 @@ namespace Core2.Selkie.Services.Common
             securitySettings.AddAccessRule(allowEveryoneRule);
             m_Mutex.SetAccessControl(securitySettings);
         }
-    }
-
-    internal interface IOneServiceOnly
-    {
     }
 }

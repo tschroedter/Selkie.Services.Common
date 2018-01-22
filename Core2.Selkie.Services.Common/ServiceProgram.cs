@@ -1,8 +1,9 @@
 using System.Diagnostics.CodeAnalysis;
 using Castle.MicroKernel.Registration;
 using Castle.Windsor;
+using Core2.Selkie.Services.Common.Interfaces;
+using Core2.Selkie.Windsor.Interfaces;
 using JetBrains.Annotations;
-using Core2.Selkie.Windsor;
 
 namespace Core2.Selkie.Services.Common
 {
@@ -15,21 +16,15 @@ namespace Core2.Selkie.Services.Common
         {
             m_Container = container;
             m_Container.Install(installer);
-            m_Logger = container.Resolve <ISelkieLogger>();
+            Logger = container.Resolve <ISelkieLogger>();
             m_ServiceConsole = container.Resolve <IServiceConsole>();
         }
 
         [NotNull]
-        public ISelkieLogger Logger
-        {
-            get
-            {
-                return m_Logger;
-            }
-        }
+        [UsedImplicitly]
+        public ISelkieLogger Logger { get; }
 
         private readonly IWindsorContainer m_Container;
-        private readonly ISelkieLogger m_Logger;
         private readonly IServiceConsole m_ServiceConsole;
 
         public void Main(bool isWaitForKey)
@@ -42,7 +37,7 @@ namespace Core2.Selkie.Services.Common
         private void Release()
         {
             m_Container.Release(m_ServiceConsole);
-            m_Container.Release(m_Logger);
+            m_Container.Release(Logger);
         }
     }
 }

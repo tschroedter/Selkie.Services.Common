@@ -1,9 +1,9 @@
 ﻿using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
-using Selkie.Windsor;
+using Core2.Selkie.Windsor;
 
-namespace Selkie.Services.Common.Example
+namespace Core2.Selkie.Services.Common.Example
 {
     public class Installer
         : BasicConsoleInstaller,

@@ -8,12 +8,13 @@ using NLog;
 namespace Core2.Selkie.Services.Common
 {
     [ExcludeFromCodeCoverage]
-    //ncrunch: no coverage start
+    [UsedImplicitly]
     public class ServiceMain
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private static readonly IWindsorContainer Container = new WindsorContainer();
 
+        [UsedImplicitly]
         public static void StartServiceAndRunForever([NotNull] IWindsorInstaller installer,
                                                      [NotNull] string serviceName)
         {
@@ -22,6 +23,7 @@ namespace Core2.Selkie.Services.Common
                          false);
         }
 
+        [UsedImplicitly]
         public static void StartServiceAndWaitForKey([NotNull] IWindsorInstaller installer,
                                                      [NotNull] string serviceName)
         {

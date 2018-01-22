@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
 using NUnit.Framework;
-using Selkie.Services.Common.Messages;
+using Core2.Selkie.Services.Common.Messages;
 
-namespace Selkie.Services.Common.Tests.Messages.NUnit
+namespace Core2.Selkie.Services.Common.Tests.Messages.NUnit
 {
     [ExcludeFromCodeCoverage]
     //ncrunch: no coverage start

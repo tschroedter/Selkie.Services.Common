@@ -3,11 +3,11 @@ using System.Diagnostics.CodeAnalysis;
 using JetBrains.Annotations;
 using NSubstitute;
 using NUnit.Framework;
-using Selkie.EasyNetQ;
-using Selkie.Services.Common.Messages;
-using Selkie.Windsor;
+using Core2.Selkie.EasyNetQ;
+using Core2.Selkie.Services.Common.Messages;
+using Core2.Selkie.Windsor;
 
-namespace Selkie.Services.Common.Tests.NUnit
+namespace Core2.Selkie.Services.Common.Tests.NUnit
 {
     [TestFixture]
     [ExcludeFromCodeCoverage]

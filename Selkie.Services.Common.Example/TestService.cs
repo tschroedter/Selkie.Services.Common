@@ -1,8 +1,8 @@
 ﻿using JetBrains.Annotations;
-using Selkie.EasyNetQ;
-using Selkie.Windsor;
+using Core2.Selkie.EasyNetQ;
+using Core2.Selkie.Windsor;
 
-namespace Selkie.Services.Common.Example
+namespace Core2.Selkie.Services.Common.Example
 {
     [ProjectComponent(Lifestyle.Singleton)]
     public class TestService

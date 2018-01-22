@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.27205.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Selkie.Services.Common", "Selkie.Services.Common\Selkie.Services.Common.csproj", "{9C71309D-A673-46CF-B2D3-C7F3B517CBFE}"
 EndProject
@@ -13,6 +13,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Selkie.Services.Common.Tests", "Selkie.Services.Common.Tests\Selkie.Services.Common.Tests.csproj", "{08C2CD83-E203-45C5-8859-7BE36CF452C6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Selkie.Services.Common.Example", "Selkie.Services.Common.Example\Selkie.Services.Common.Example.csproj", "{2F3EB768-CF79-46E1-A0A6-082E2C3CA58B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core2.Selkie.Services.Common", "Core2.Selkie.Services.Common\Core2.Selkie.Services.Common.csproj", "{8F00353C-F7D1-4356-81D2-B1FA2174F3A0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -36,8 +38,15 @@ Global
 		{2F3EB768-CF79-46E1-A0A6-082E2C3CA58B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2F3EB768-CF79-46E1-A0A6-082E2C3CA58B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2F3EB768-CF79-46E1-A0A6-082E2C3CA58B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8F00353C-F7D1-4356-81D2-B1FA2174F3A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8F00353C-F7D1-4356-81D2-B1FA2174F3A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8F00353C-F7D1-4356-81D2-B1FA2174F3A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8F00353C-F7D1-4356-81D2-B1FA2174F3A0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {36295DD5-309A-483B-8DFA-1656C2499F40}
 	EndGlobalSection
 EndGlobal

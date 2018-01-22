@@ -5,10 +5,10 @@ using JetBrains.Annotations;
 using NSubstitute;
 using NUnit.Framework;
 using Ploeh.AutoFixture.NUnit3;
-using Selkie.NUnit.Extensions;
-using Selkie.Windsor;
+using Core2.Selkie.NUnit.Extensions;
+using Core2.Selkie.Windsor;
 
-namespace Selkie.Services.Common.Tests.NUnit
+namespace Core2.Selkie.Services.Common.Tests.NUnit
 {
     [ExcludeFromCodeCoverage]
     [TestFixture]

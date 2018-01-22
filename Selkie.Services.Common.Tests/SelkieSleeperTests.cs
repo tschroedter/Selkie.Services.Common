@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using NUnit.Framework;
 
-namespace Selkie.Services.Common.Tests.NUnit
+namespace Core2.Selkie.Services.Common.Tests.NUnit
 {
     [TestFixture]
     [ExcludeFromCodeCoverage]

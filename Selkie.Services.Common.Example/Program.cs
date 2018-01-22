@@ -2,9 +2,9 @@
 using System.Reflection;
 using Castle.Windsor;
 using Castle.Windsor.Installer;
-using Selkie.EasyNetQ;
+using Core2.Selkie.EasyNetQ;
 
-namespace Selkie.Services.Common.Example
+namespace Core2.Selkie.Services.Common.Example
 {
     internal class Program
     {
